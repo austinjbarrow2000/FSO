@@ -13,7 +13,7 @@ const Button = ({handleClick, text}) => (
 const Statistic = ({name, value}) => {
   return(
     <tr>
-      <td>{name}</td>
+      <td>{name}</td> 
       <td>{value}</td>
     </tr>
   )
