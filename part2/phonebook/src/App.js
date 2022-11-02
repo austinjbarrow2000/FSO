@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import Filter from './Components/Filter.js'
+import PersonForm from './Components/PersonForm.js'
+import Persons from './Components/Persons.js'
+
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -24,9 +28,12 @@ const App = () => {
     if(persons.filter(person => person.name === newName).length === 0) {
       setPersons(persons.concat({name: newName, number: newNumber, id: persons.length}))
       setNewName('')
+      setNewNumber('')
     } else{
       alert(`${newName} is already in the phonebook.`)
     }
+
+    console.log(filter)
     
   }
 
@@ -34,7 +41,7 @@ const App = () => {
     setNewName(event.target.value)
   }
 
-  const handlePhoneNumberChange = (event) => {
+  const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
   }
 
@@ -45,38 +52,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with 
-        <input
-          value = {filter}
-          onChange = {handleFilterChange}
-        />
-      </div>
-      <h2>Add a New</h2>
-      <form onSubmit = {addPerson}>
-        <div>
-          name: 
-          <input 
-            value = {newName}
-            onChange = {handleNameChange}
-          />
-        </div>
-        <div>
-          number:
-          <input 
-            value = {newNumber}
-            onChange = {handlePhoneNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      
-      {personsToShow.map(person =>
-        <p key = {person.name}>{person.id}. {person.name} {person.number}</p>
-      )}
+      <Filter filterValue = {filter} filterChange = {handleFilterChange} />
+      <h3>Add a New</h3>
+      <PersonForm onSubmit={addPerson} nameValue = {newName} nameChange={handleNameChange} 
+        numberValue = {newNumber} numberChange={handleNumberChange}/>
+      <h3>Numbers</h3>
+      <Persons personsToShow = {personsToShow} />
     </div>
   )
 }
