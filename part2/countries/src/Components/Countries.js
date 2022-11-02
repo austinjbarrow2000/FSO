@@ -1,20 +1,25 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import Weather from './Weather.js';
 
 const Countries = ({countriesToShow, setCountries}) => {
+
     if(countriesToShow.length === 1) {
         const selectedCountry = countriesToShow[0]
+
+
         return (
             <div>
-                <h2>{selectedCountry.name.common}</h2>
+                <h1>{selectedCountry.name.common}</h1>
                 <p>capital {selectedCountry.capital}</p>
                 <p>area {selectedCountry.area}</p>
-                <h2>Spoken Languages</h2>
+                <h3>Spoken Languages</h3>
                 Languages:
                 <ul>
                     {Object.values(selectedCountry.languages).map(language => <li key = {language}>{language}</li>)}
                 </ul>
                 <img src={selectedCountry.flags.png} alt = "Country Flag"></img>
-
+                <Weather selectedCountry = {selectedCountry}/>
             </div>
         )
     }
@@ -29,8 +34,8 @@ const Countries = ({countriesToShow, setCountries}) => {
     
     return (
         <ul>
-            {countriesToShow.map(country => 
-                <li>
+            {countriesToShow.map((country, i) => 
+                <li key = {i}>
                     <p key = {country.name.common}>{country.name.common} 
                         <button onClick = {() => setCountries([country])}>Show Me</button>
                     </p>
