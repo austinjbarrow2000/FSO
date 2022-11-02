@@ -24,7 +24,7 @@ function App() {
   return (
     <div>
       <Filter filterValue = {filter} filterChange = {handleFilterChange} />
-      <Countries countriesToShow = {countriesToShow} />
+      <Countries countriesToShow = {countriesToShow} setCountries = {setCountries} />
     </div>
   );
 }

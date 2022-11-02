@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Countries = ({countriesToShow}) => {
+const Countries = ({countriesToShow, setCountries}) => {
     if(countriesToShow.length === 1) {
         const selectedCountry = countriesToShow[0]
         return (
@@ -28,11 +28,15 @@ const Countries = ({countriesToShow}) => {
     }
     
     return (
-        <div>
-            {countriesToShow.map(country =>
-                <p key = {country.name.official}>{country.name.official}</p>
+        <ul>
+            {countriesToShow.map(country => 
+                <li>
+                    <p key = {country.name.common}>{country.name.common} 
+                        <button onClick = {() => setCountries([country])}>Show Me</button>
+                    </p>
+                </li>
             )}
-        </div>  
+        </ul>  
     )
 }
 
