@@ -32,11 +32,22 @@ const App = () => {
       setNewNumber('')
       
     } else{
-      alert(`${newName} is already in the phonebook.`)
+      // alert(`${newName} is already in the phonebook.`)
+      if( window.confirm(`${newName} is already in the phonebook, replace the phone number with the new one?`)) {
+        updateNumber({...persons.find(person => person.name === newName), number: newNumber})
+      }
     }
 
     console.log(filter)
     
+  }
+
+  const updateNumber = (updatingPerson) => {
+    personsService
+      .updatePerson(updatingPerson.id, updatingPerson)
+      .then(updatedPerson => {
+        setPersons(persons.map(person => person.id !== updatingPerson.id ? person : updatedPerson))
+      })
   }
 
   const handleNameChange = (event) => {
@@ -59,6 +70,20 @@ const App = () => {
       })
   },[]);
 
+  const deletePerson = (id) => {
+
+    console.log(`delete ${id}person`)
+    if(window.confirm(`Are your sure you want to delete ${persons.find(person => person.id === id).name}`)) {
+      personsService
+      .deletePerson(id)
+      .then(deletedPerson => {
+        setPersons(persons.filter(person => person.id !== id))
+      })
+    } 
+  }
+
+
+
 
   return (
     <div>
@@ -68,7 +93,7 @@ const App = () => {
       <PersonForm onSubmit={addPerson} nameValue = {newName} nameChange={handleNameChange} 
         numberValue = {newNumber} numberChange={handleNumberChange}/>
       <h3>Numbers</h3>
-      <Persons personsToShow = {personsToShow} />
+      <Persons personsToShow = {personsToShow} deletePerson = {deletePerson}/>
     </div>
   )
 }
