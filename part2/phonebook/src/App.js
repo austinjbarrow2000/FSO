@@ -11,7 +11,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notifMessage, setNotifMessage] = useState(null)
+  const [notifClass, setNotifClass] = useState('error')
 
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
 
@@ -30,6 +31,13 @@ const App = () => {
           console.log(returnedPerson)
           setPersons(persons.concat(returnedPerson))
         })
+
+      setNotifMessage(`Added ${newName}`); 
+      setNotifClass('success')
+      setTimeout(() => {
+        setNotifMessage(null)
+      }, 5000) 
+      
       setNewName('')
       setNewNumber('')
       
@@ -50,6 +58,12 @@ const App = () => {
       .then(updatedPerson => {
         setPersons(persons.map(person => person.id !== updatingPerson.id ? person : updatedPerson))
       })
+
+    setNotifMessage(`Updated ${newName} number`)
+    setNotifClass('success')
+    setTimeout(() => {
+      setNotifMessage(null)
+    }, 5000) 
   }
 
   const handleNameChange = (event) => {
@@ -81,13 +95,20 @@ const App = () => {
       .then(deletedPerson => {
         setPersons(persons.filter(person => person.id !== id))
       })
+      .catch(error => {
+        setNotifMessage(`Information of ${persons.find(person => person.id === id).name} has already been removed from the server`)
+        setNotifClass('error')
+        setTimeout(() => {
+          setNotifMessage(null)
+        }, 5000) 
+      })
     } 
   }
 
   return (
     <div>
-      <Notification message = {errorMessage}/>
       <h2>Phonebook</h2>
+      <Notification message = {notifMessage} className = {notifClass}/>
       <Filter filterValue = {filter} filterChange = {handleFilterChange} />
       <h3>Add a New</h3>
       <PersonForm onSubmit={addPerson} nameValue = {newName} nameChange={handleNameChange} 
