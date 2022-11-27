@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Filter from './Components/Filter.js'
+import Notification from './Components/Notification.js'
 import PersonForm from './Components/PersonForm.js'
 import Persons from './Components/Persons.js'
 import personsService from './services/persons'
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
 
@@ -82,11 +84,9 @@ const App = () => {
     } 
   }
 
-
-
-
   return (
     <div>
+      <Notification message = {errorMessage}/>
       <h2>Phonebook</h2>
       <Filter filterValue = {filter} filterChange = {handleFilterChange} />
       <h3>Add a New</h3>
