@@ -31,6 +31,14 @@ const App = () => {
           console.log(returnedPerson)
           setPersons(persons.concat(returnedPerson))
         })
+        .catch(error => {
+          setNotifMessage(`${error.response.data.error}`); 
+          setNotifClass('error')
+          setTimeout(() => {
+            setNotifMessage(null)
+          }, 5000) 
+          return;
+        })
 
       setNotifMessage(`Added ${newName}`); 
       setNotifClass('success')
